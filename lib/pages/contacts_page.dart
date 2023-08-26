@@ -70,6 +70,7 @@ class ContactPageState extends State<ContactsPage> {
     super.initState();
     
      getAssoc();
+     getPeopleAssociations( 'ALL');
     
   }
 
@@ -102,7 +103,7 @@ class ContactPageState extends State<ContactsPage> {
               borderRadius: BorderRadius.all(Radius.circular(20))
               ),
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: 
+              child:     
                   DropdownButton<String>(
               dropdownColor: Colors.grey[200],
               value: selectedassoc,
@@ -132,9 +133,9 @@ class ContactPageState extends State<ContactsPage> {
                 //  controller : textController,
                 onSubmitted: (value) => {getSearchContacts(value, assnCode)},
                 decoration: InputDecoration(
-                    hintText: 'Search for something',
+                    hintText: 'Search by last name',
                     prefixIcon: Icon(Icons.search),
-                    suffixIcon: Icon(Icons.camera_alt)),
+                    ),
               ),
               ),
             ),
@@ -151,7 +152,7 @@ class ContactPageState extends State<ContactsPage> {
       contactListWidget = _buildContactList();
     } else {
       contactListWidget =
-          NoContentFound(Texts.NO_CONTACTS, Icons.account_circle);
+          NoContentFound(Texts.STARTINFO, Icons.account_circle);
     }
     return new Stack(
       children: <Widget>[contactListWidget, progressDialog],
@@ -423,7 +424,7 @@ class ContactPageState extends State<ContactsPage> {
 
           case Events.NO_CONTACTS_FOUND:
             contactList = eventObject.object;
-            showSnackBar(SnackBarText.NO_CONTACTS_FOUND);
+            showSnackBar("do this");
             break;
 
           case Events.NO_INTERNET_CONNECTION:

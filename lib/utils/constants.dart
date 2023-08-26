@@ -20,8 +20,10 @@ const String DATABASE_NAME = "contacts.db";
 const String GOOGLE_PLACE_API_KEY = "REPLACE_IT_WITH_YOUR_OWN_API_KEY";
 
 class APIConstants {
-  static const String _CONTACT_API_BASE_URL = "http://localhost:5121/api/lis/";
-
+  static const String scheme = 'https';
+  static const String server = 'listest20231.azurewebsites.net';
+  static const String _CONTACT_API_BASE_URL = "https://listest20231.azurewebsites.net/api/lis/";
+//static const String _CONTACT_API_BASE_URL = "http://localhost:5121/api/lis/";
   static const String READ_CONTACTS =
       _CONTACT_API_BASE_URL + "Persons";
 
@@ -190,6 +192,7 @@ class Texts {
   static const String CONTACT_DETAILS = "Contact Details";
   static const String CREATE_CONTACT = "Create Contact";
   static const String NO_CONTACTS = "No Contacts";
+  static const String STARTINFO = " Select Assosiation from dropdown";
   static const String NO_DELETED_CONTACTS = "No Deleted Contacts";
   static const String NO_LOGS = "No Logs";
   static const String ERROR_PICKING_IMAGE = "Error picking image.";

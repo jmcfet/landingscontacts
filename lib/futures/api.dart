@@ -32,11 +32,11 @@ Future<EventObject> getAssociations() async {
     
     String scheme = 'http';
   int port = 5121;
-  String server = 'localhost';
+  String server = 'listest20231.azurewebsites.net';
     var url = new Uri(
-        scheme: scheme,
-        host: server,
-        port: port,
+        scheme: APIConstants.scheme,
+        host: APIConstants.server,
+      //  port: port,
         path: '/api/lis/associations',
         );
     final response = await http.get(url);
@@ -66,9 +66,9 @@ Future<EventObject> getAssociationResidents(assoc) async {
   int port = 5121;
   String server = 'localhost';
     var url = new Uri(
-        scheme: scheme,
-        host: server,
-        port: port,
+        scheme: APIConstants.scheme,
+        host: APIConstants.server,
+       // port: port,
         path: '/api/lis/getResidentsinAssociation',
         queryParameters: queryParameters1);
     final response = await http.get(url);
@@ -100,9 +100,9 @@ Future<EventObject> getSearchResults(search,cat) async {
   int port = 5121;
   String server = 'localhost';
     var url = new Uri(
-        scheme: scheme,
-        host: server,
-        port: port,
+        scheme: APIConstants.scheme,
+        host: APIConstants.server,
+   //     port: port,
         path: '/api/lis/searchPersons',
         queryParameters: queryParameters1);
     final response = await http.get(url);
