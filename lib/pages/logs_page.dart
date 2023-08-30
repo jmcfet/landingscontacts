@@ -16,7 +16,7 @@
 
 import 'package:Contacts/common_widgets/no_content_found.dart';
 import 'package:Contacts/common_widgets/progress_dialog.dart';
-import 'package:Contacts/futures/common.dart';
+
 import 'package:Contacts/models/base/event_object.dart';
 import 'package:Contacts/models/log.dart';
 import 'package:Contacts/utils/constants.dart';
@@ -160,7 +160,11 @@ class LogsPageState extends State<LogsPage> {
       });
     }
   }
-
+Future<EventObject> getLogs() async {
+  EventObject eventObject;
+  
+  return eventObject;
+}
   void showSnackBar(String textToBeShown) {
     ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
       content: new Text(textToBeShown),

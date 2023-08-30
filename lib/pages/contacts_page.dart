@@ -17,7 +17,6 @@
 import 'package:Contacts/common_widgets/avatar.dart';
 import 'package:Contacts/common_widgets/no_content_found.dart';
 import 'package:Contacts/common_widgets/progress_dialog.dart';
-import 'package:Contacts/futures/common.dart';
 import 'package:Contacts/models/base/event_object.dart';
 import 'package:Contacts/models/contact.dart';
 import 'package:Contacts/pages/contact_details.dart';
@@ -39,9 +38,7 @@ class ContactsPage extends StatefulWidget {
   createState() =>
       _contactPageState = new ContactPageState();
 
-  void reloadContactList() {
-    _contactPageState.reloadContacts();
-  }
+  
 }
 
 class ContactPageState extends State<ContactsPage> {
@@ -103,7 +100,7 @@ class ContactPageState extends State<ContactsPage> {
               borderRadius: BorderRadius.all(Radius.circular(20))
               ),
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child:     
+              child: 
                   DropdownButton<String>(
               dropdownColor: Colors.grey[200],
               value: selectedassoc,
@@ -135,7 +132,7 @@ class ContactPageState extends State<ContactsPage> {
                 decoration: InputDecoration(
                     hintText: 'Search by last name',
                     prefixIcon: Icon(Icons.search),
-                    ),
+                    suffixIcon: Icon(Icons.camera_alt)),
               ),
               ),
             ),
@@ -204,7 +201,7 @@ class ContactPageState extends State<ContactsPage> {
           if (direction == DismissDirection.endToStart) {
             progressDialog
                 .showProgressWithText(ProgressDialogTitles.DELETING_CONTACT);
-            deleteContact(contact);
+ //           deleteContact(contact);
             contactList.remove(contact);
           } else {
             _navigateToEditContactPage(context, contact);
@@ -226,7 +223,7 @@ class ContactPageState extends State<ContactsPage> {
     setState(() {
       switch (contactUpdateStatus) {
         case Events.CONTACT_WAS_UPDATED_SUCCESSFULLY:
-          reloadContacts();
+//          reloadContacts();
           showSnackBar(SnackBarText.CONTACT_WAS_UPDATED_SUCCESSFULLY);
           break;
         case Events.UNABLE_TO_UPDATE_CONTACT:
@@ -347,13 +344,7 @@ class ContactPageState extends State<ContactsPage> {
     );
   }
 
-  void reloadContacts() {
-    setState(() {
-      progressDialog
-          .showProgressWithText(ProgressDialogTitles.LOADING_CONTACTS);
-      loadContacts();
-    });
-  }
+  
 
   void getSearchContacts(searchtoken, categogy) {
     setState(() {
@@ -411,62 +402,9 @@ class ContactPageState extends State<ContactsPage> {
     }
   }
 
-  void loadContacts() async {
-    EventObject eventObject = await getContacts();
-    if (this.mounted) {
-      setState(() {
-        progressDialog.hide();
-        switch (eventObject.id) {
-          case Events.READ_CONTACTS_SUCCESSFUL:
-            contactList = eventObject.object;
-            showSnackBar(SnackBarText.CONTACTS_LOADED_SUCCESSFULLY);
-            break;
+  
 
-          case Events.NO_CONTACTS_FOUND:
-            contactList = eventObject.object;
-            showSnackBar("do this");
-            break;
-
-          case Events.NO_INTERNET_CONNECTION:
-            contactListWidget = NoContentFound(
-                SnackBarText.NO_INTERNET_CONNECTION, Icons.signal_wifi_off);
-            showSnackBar(SnackBarText.NO_INTERNET_CONNECTION);
-            break;
-        }
-      });
-    }
-  }
-
-  void deleteContact(Contact contact) async {
-    EventObject eventObject = await removeContact(contact);
-    if (this.mounted) {
-      setState(() {
-        progressDialog.hide();
-        switch (eventObject.id) {
-          case Events.CONTACT_WAS_DELETED_SUCCESSFULLY:
-            showSnackBar(SnackBarText.CONTACT_WAS_DELETED_SUCCESSFULLY);
-            break;
-
-          case Events.PLEASE_PROVIDE_THE_ID_OF_THE_CONTACT_TO_BE_DELETED:
-            contactList.add(contact);
-            showSnackBar(SnackBarText
-                .PLEASE_PROVIDE_THE_ID_OF_THE_CONTACT_TO_BE_DELETED);
-            break;
-
-          case Events.NO_CONTACT_WITH_PROVIDED_ID_EXIST_IN_DATABASE:
-            contactList.add(contact);
-            showSnackBar(
-                SnackBarText.NO_CONTACT_WITH_PROVIDED_ID_EXIST_IN_DATABASE);
-            break;
-
-          case Events.NO_INTERNET_CONNECTION:
-            contactList.add(contact);
-            showSnackBar(SnackBarText.NO_INTERNET_CONNECTION);
-            break;
-        }
-      });
-    }
-  }
+  
 
   void showSnackBar(String textToBeShown) {
     ScaffoldMessenger.of(context)

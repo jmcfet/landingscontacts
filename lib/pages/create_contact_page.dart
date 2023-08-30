@@ -22,8 +22,8 @@ import 'package:Contacts/models/base/event_object.dart';
 import 'package:Contacts/models/contact.dart';
 import 'package:Contacts/utils/constants.dart';
 import 'package:Contacts/utils/functions.dart';
-import 'package:Contacts/futures/common.dart';
-import 'package:Contacts/pages/google_place_search.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:image_picker/image_picker.dart';
@@ -211,7 +211,7 @@ class CreateContactPageState extends State<CreateContactPage> {
   Widget _pickAPlace() {
     return new GestureDetector(
       onTap: () {
-        _navigateToPlaceSearch(context);
+  //      _navigateToPlaceSearch(context);
       },
       child: new Container(
         child: new Row(
@@ -383,17 +383,10 @@ class CreateContactPageState extends State<CreateContactPage> {
     ));
   }
 
-  void _navigateToPlaceSearch(BuildContext context) async {
-    Contact contact = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => PlaceSearchPage()),
-    );
-    setState(() {
-      if (contact != null) {
-        addressController.text = contact.address;
-        latController.text = contact.latitude;
-        longController.text = contact.longitude;
-      }
-    });
-  }
+  
+  Future<EventObject> saveContact(Contact contact) async {
+  EventObject eventObject;
+  
+  return eventObject;
+}
 }

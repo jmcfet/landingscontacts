@@ -2,7 +2,11 @@
 import 'package:Contacts/utils/constants.dart';
 import 'package:Contacts/pages/contacts_page.dart';
 import 'package:flutter/material.dart';
-
+/*
+git add .
+git commit -m "first commit"
+git push 
+*/
 void main() => runApp(new ContactsApp());
 
 class ContactsApp extends StatelessWidget {

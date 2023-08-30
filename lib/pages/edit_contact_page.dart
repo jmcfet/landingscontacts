@@ -18,10 +18,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:Contacts/common_widgets/progress_dialog.dart';
-import 'package:Contacts/futures/common.dart';
+
 import 'package:Contacts/models/base/event_object.dart';
 import 'package:Contacts/models/contact.dart';
-import 'package:Contacts/pages/google_place_search.dart';
+
 import 'package:Contacts/utils/constants.dart';
 import 'package:Contacts/utils/functions.dart';
 import 'package:flutter/material.dart';
@@ -234,7 +234,7 @@ class EditContactPageState extends State<EditContactPage> {
   Widget _pickAPlace() {
     return new GestureDetector(
       onTap: () {
-        _navigateToPlaceSearch(context);
+//        _navigateToPlaceSearch(context);
       },
       child: new Container(
         child: new Row(
@@ -384,7 +384,8 @@ class EditContactPageState extends State<EditContactPage> {
   }
 
   void editContact(Contact contactToBeEdited) async {
-    EventObject contactObject = await updateContact(contactToBeEdited);
+ //   EventObject contactObject = await updateContact(contactToBeEdited);
+    EventObject contactObject;
     if (this.mounted) {
       setState(() {
         progressDialog.hide();
@@ -414,17 +415,5 @@ class EditContactPageState extends State<EditContactPage> {
     ));
   }
 
-  void _navigateToPlaceSearch(BuildContext context) async {
-    Contact contact = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => PlaceSearchPage()),
-    );
-    setState(() {
-      if (contact != null) {
-        addressController.text = contact.address;
-        latController.text = contact.latitude;
-        longController.text = contact.longitude;
-      }
-    });
-  }
+  
 }

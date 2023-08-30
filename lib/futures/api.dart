@@ -19,7 +19,6 @@ import 'dart:convert';
 
 import 'package:Contacts/models/base/event_object.dart';
 import 'package:Contacts/models/contact.dart';
-import 'package:Contacts/models/deleted_contact.dart';
 import 'package:Contacts/models/log.dart';
 import 'package:Contacts/utils/constants.dart';
 import 'package:http/http.dart' as http;
@@ -144,28 +143,7 @@ Future<EventObject> getLogsUsingRestAPI() async {
   }
 }
 
-Future<EventObject> getDeletedContactsUsingRestAPI() async {
-  try {
-    final response = await http.get(Uri.parse(APIConstants.READ_DELETED_CONTACTS));
-    if (response != null) {
-      if (response.statusCode == APIResponseCode.SC_OK) {
-        final responseJson = json.decode(response.body);
-        List<DeletedContact> deletedContacts =
-            await DeletedContact.fromDeletedContactJson(responseJson);
-        return new EventObject(
-            id: Events.READ_DELETED_CONTACTS_SUCCESSFUL,
-            object: deletedContacts);
-      } else {
-        return new EventObject(id: Events.NO_DELETED_CONTACTS_FOUND);
-      }
-    } else {
-      return new EventObject();
-    }
-  } catch (e) {
-    print(e.toString());
-    return new EventObject();
-  }
-}
+
 
 Future<EventObject> saveContactUsingRestAPI(Contact contact) async {
   try {

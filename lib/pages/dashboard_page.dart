@@ -18,7 +18,6 @@ import 'dart:async';
 
 import 'package:Contacts/common_widgets/no_content_found.dart';
 import 'package:Contacts/common_widgets/progress_dialog.dart';
-import 'package:Contacts/futures/common.dart';
 import 'package:Contacts/models/base/event_object.dart';
 import 'package:Contacts/pages/contacts_page.dart';
 import 'package:Contacts/pages/create_contact_page.dart';
@@ -26,7 +25,6 @@ import 'package:Contacts/pages/deleted_Contacts_page.dart';
 import 'package:Contacts/pages/logs_page.dart';
 import 'package:Contacts/pages/navigation_item.dart';
 import 'package:Contacts/pages/search_Contacts_page.dart';
-import 'package:Contacts/pages/ways_page.dart';
 import 'package:Contacts/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
@@ -50,7 +48,8 @@ class DashBoardPageState extends State<DashBoardPage> {
   }
 
   Future<void> initContacts() async {
-    EventObject eventObjectInitContacts = await getContacts();
+    //  EventObject eventObjectInitContacts = await getContacts();
+    EventObject eventObjectInitContacts;
     eventsCapturing(eventObjectInitContacts);
   }
 
@@ -90,11 +89,10 @@ class DashBoardPageState extends State<DashBoardPage> {
             onPressed: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(  // transitions to the new route using a platform-specific animation.
-                      builder: (context) => SearchContactsPage()
-                  )
-              );
- //                     navigateToPage(new SearchContactsPage());
+                  MaterialPageRoute(
+                      // transitions to the new route using a platform-specific animation.
+                      builder: (context) => SearchContactsPage()));
+              //                     navigateToPage(new SearchContactsPage());
             },
             heroTag: DrawerTitles.SEARCH_CONTACTS,
             tooltip: DrawerTitles.SEARCH_CONTACTS,
@@ -164,7 +162,7 @@ class DashBoardPageState extends State<DashBoardPage> {
           leadingIconData: Icons.subdirectory_arrow_left,
           title: DrawerTitles.GO_BACK),
     ];
-    return  ListView.builder(
+    return ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           final item = navigationData[index];
           if (item is HeaderItem) {
@@ -177,13 +175,7 @@ class DashBoardPageState extends State<DashBoardPage> {
   }
 
   Widget _getHeaderItem() {
-    switch (selectedWay) {
-      case Ways.API:
-        return _drawerHeader(Icons.description, Ways.API);
-      
-      default:
-        return _drawerHeader(Icons.description, Ways.API);
-    }
+    return _drawerHeader(Icons.description, Ways.API);
   }
 
   Widget _drawerHeader(IconData icon, String way) {
@@ -252,7 +244,7 @@ class DashBoardPageState extends State<DashBoardPage> {
         if (title == whatToDo) {
           if (type == ContactsPage) {
             ContactsPage contactPage = dashBoardWidget as ContactsPage;
-            contactPage.reloadContactList();
+            //          contactPage.reloadContactList();
           } else if (type == DeletedContactsPage) {
             DeletedContactsPage deletedContactsPage =
                 dashBoardWidget as DeletedContactsPage;
@@ -295,36 +287,26 @@ class DashBoardPageState extends State<DashBoardPage> {
           }
         }
       } else {
-        switch (selectedWay) {
-          case Ways.API:
-            showSnackBar(SnackBarText.TAPPED_ON_API_HEADER);
-            break;
-          case Ways.CUSTOM:
-            showSnackBar(SnackBarText.TAPPED_ON_CUSTOM_HEADER);
-            break;
-          case Ways.PREFERENCES:
-            showSnackBar(SnackBarText.TAPPED_ON_PREFERENCES_HEADER);
-            break;
-          case Ways.SQFLITE:
-            showSnackBar(SnackBarText.TAPPED_ON_SQF_LITE_HEADER);
-            break;
-        }
+        showSnackBar(SnackBarText.TAPPED_ON_API_HEADER);
       }
     });
   }
 
   void loadContacts() async {
-    EventObject eventObjectContacts = await getContacts();
+    //  EventObject eventObjectContacts = await getContacts();
+    EventObject eventObjectContacts;
     eventsCapturing(eventObjectContacts);
   }
 
   void loadDeletedContacts() async {
-    EventObject eventObjectDeleteContacts = await getDeletedContacts();
+    //   EventObject eventObjectDeleteContacts = await getDeletedContacts();
+    EventObject eventObjectDeleteContacts;
     eventsCapturing(eventObjectDeleteContacts);
   }
 
   void loadLogs() async {
-    EventObject eventObjectLogs = await getLogs();
+    //  EventObject eventObjectLogs = await getLogs();
+    EventObject eventObjectLogs;
     eventsCapturing(eventObjectLogs);
   }
 
