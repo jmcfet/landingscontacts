@@ -19,7 +19,7 @@ import 'package:Contacts/utils/constants.dart';
 
 class EventObject {
   int id;
-  Object object;
+  Object? object;
 
   EventObject({this.id: Events.NO_INTERNET_CONNECTION, this.object});
 }

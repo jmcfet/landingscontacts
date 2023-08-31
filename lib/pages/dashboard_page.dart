@@ -1,18 +1,4 @@
-/*
- * Copyright 2018 Harsh Sharma
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 import 'dart:async';
 
@@ -21,10 +7,8 @@ import 'package:Contacts/common_widgets/progress_dialog.dart';
 import 'package:Contacts/models/base/event_object.dart';
 import 'package:Contacts/pages/contacts_page.dart';
 import 'package:Contacts/pages/create_contact_page.dart';
-import 'package:Contacts/pages/deleted_Contacts_page.dart';
-import 'package:Contacts/pages/logs_page.dart';
+
 import 'package:Contacts/pages/navigation_item.dart';
-import 'package:Contacts/pages/search_Contacts_page.dart';
 import 'package:Contacts/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
@@ -37,7 +21,7 @@ class DashBoardPage extends StatefulWidget {
 class DashBoardPageState extends State<DashBoardPage> {
   static final globalKey = new GlobalKey<ScaffoldState>();
   ProgressDialog progressDialog = ProgressDialog.getProgressDialog(
-      ProgressDialogTitles.LOADING_CONTACTS, true);
+      ProgressDialogTitles.LOADING_CONTACTS, true) as ProgressDialog;
   Widget dashBoardWidget = new Container();
   String title = DrawerTitles.CONTACTS;
 
@@ -49,7 +33,8 @@ class DashBoardPageState extends State<DashBoardPage> {
 
   Future<void> initContacts() async {
     //  EventObject eventObjectInitContacts = await getContacts();
-    EventObject eventObjectInitContacts;
+    EventObject eventObjectInitContacts = new EventObject();
+      
     eventsCapturing(eventObjectInitContacts);
   }
 
@@ -83,24 +68,7 @@ class DashBoardPageState extends State<DashBoardPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(bottom: 16.0),
-          child: new FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      // transitions to the new route using a platform-specific animation.
-                      builder: (context) => SearchContactsPage()));
-              //                     navigateToPage(new SearchContactsPage());
-            },
-            heroTag: DrawerTitles.SEARCH_CONTACTS,
-            tooltip: DrawerTitles.SEARCH_CONTACTS,
-            child: new Icon(
-              Icons.search,
-            ),
-          ),
-        ),
+       
         new FloatingActionButton(
           onPressed: () {
             _navigateToCreateContactPage(context);
@@ -136,7 +104,7 @@ class DashBoardPageState extends State<DashBoardPage> {
     });
   }
 
-  List<NavigationItem> navigationData;
+  List<NavigationItem> navigationData = [];
 
   Widget _navigationDrawer() {
     return new Drawer(child: _navigationData());
@@ -144,7 +112,7 @@ class DashBoardPageState extends State<DashBoardPage> {
 
   Widget _navigationData() {
     navigationData = <NavigationItem>[
-      new HeaderItem(_getHeaderItem()),
+      new HeaderItem(_getHeaderItem() as GestureDetector),
       new SimpleItem(
           leadingIconData: Icons.account_circle, title: DrawerTitles.CONTACTS),
 /*
@@ -170,6 +138,7 @@ class DashBoardPageState extends State<DashBoardPage> {
           } else if (item is SimpleItem) {
             return _simpleItem(item);
           }
+          throw new Exception("Unknown type of item!");
         },
         itemCount: navigationData.length);
   }
@@ -218,7 +187,7 @@ class DashBoardPageState extends State<DashBoardPage> {
   Widget _simpleItem(SimpleItem simpleItem) {
     return new ListTile(
         onTap: () {
-          handleNavigationDrawerClicks(simpleItem.title, true);
+          handleNavigationDrawerClicks(simpleItem.title!, true);
         },
         leading: new Icon(
           simpleItem.leadingIconData,
@@ -226,7 +195,7 @@ class DashBoardPageState extends State<DashBoardPage> {
           color: Colors.blueGrey[400],
         ),
         title: new Text(
-          simpleItem.title,
+          simpleItem.title!,
           style: new TextStyle(
               color: Colors.blueGrey[400],
               fontWeight: FontWeight.normal,
@@ -245,14 +214,7 @@ class DashBoardPageState extends State<DashBoardPage> {
           if (type == ContactsPage) {
             ContactsPage contactPage = dashBoardWidget as ContactsPage;
             //          contactPage.reloadContactList();
-          } else if (type == DeletedContactsPage) {
-            DeletedContactsPage deletedContactsPage =
-                dashBoardWidget as DeletedContactsPage;
-            deletedContactsPage.reloadDeletedContacts();
-          } else if (type == LogsPage) {
-            LogsPage logsPage = dashBoardWidget as LogsPage;
-            logsPage.reloadLogs();
-          }
+          } 
         } else {
           title = whatToDo;
           switch (title) {
@@ -294,19 +256,19 @@ class DashBoardPageState extends State<DashBoardPage> {
 
   void loadContacts() async {
     //  EventObject eventObjectContacts = await getContacts();
-    EventObject eventObjectContacts;
+    EventObject eventObjectContacts = new EventObject();
     eventsCapturing(eventObjectContacts);
   }
 
   void loadDeletedContacts() async {
     //   EventObject eventObjectDeleteContacts = await getDeletedContacts();
-    EventObject eventObjectDeleteContacts;
+    EventObject eventObjectDeleteContacts = new EventObject();
     eventsCapturing(eventObjectDeleteContacts);
   }
 
   void loadLogs() async {
     //  EventObject eventObjectLogs = await getLogs();
-    EventObject eventObjectLogs;
+    EventObject eventObjectLogs = new EventObject();
     eventsCapturing(eventObjectLogs);
   }
 
@@ -324,24 +286,7 @@ class DashBoardPageState extends State<DashBoardPage> {
             showSnackBar(SnackBarText.NO_CONTACTS_FOUND);
             break;
 
-          case Events.READ_LOGS_SUCCESSFUL:
-            dashBoardWidget = new LogsPage(logs: eventObject.object);
-            showSnackBar(SnackBarText.LOGS_LOADED_SUCCESSFULLY);
-            break;
-          case Events.NO_LOGS_FOUND:
-            dashBoardWidget = new LogsPage();
-            showSnackBar(SnackBarText.NO_LOGS_FOUND);
-            break;
-
-          case Events.READ_DELETED_CONTACTS_SUCCESSFUL:
-            dashBoardWidget =
-                new DeletedContactsPage(deletedContacts: eventObject.object);
-            showSnackBar(SnackBarText.DELETED_CONTACTS_LOADED_SUCCESSFULLY);
-            break;
-          case Events.NO_DELETED_CONTACTS_FOUND:
-            dashBoardWidget = new DeletedContactsPage();
-            showSnackBar(SnackBarText.NO_DELETED_CONTACTS_FOUND);
-            break;
+          
 
           case Events.NO_INTERNET_CONNECTION:
             dashBoardWidget = NoContentFound(

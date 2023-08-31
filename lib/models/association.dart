@@ -7,9 +7,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
 class Association {
-  String AssnCode;
-  String AssnName;
-  String AssnShortName;
+  String? AssnCode;
+  String? AssnName;
+  String? AssnShortName;
 
   Association({
     this.AssnCode,

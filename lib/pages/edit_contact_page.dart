@@ -44,25 +44,25 @@ class EditContactPageState extends State<EditContactPage> {
   ProgressDialog progressDialog = ProgressDialog.getProgressDialog(
       ProgressDialogTitles.EDITING_CONTACT, false) as ProgressDialog;
 
-  Contact contact;
+  Contact contact = new Contact();
 
-   XFile _imageFile;
+   XFile? _imageFile = null;
 
-   TextEditingController nameController;
+   TextEditingController nameController = new TextEditingController();
 
-   TextEditingController phoneController;
+   TextEditingController phoneController =TextEditingController();
 
-   TextEditingController emailController;
+   TextEditingController emailController = new TextEditingController();
 
-   TextEditingController addressController;
+   TextEditingController addressController = new TextEditingController();
 
-   TextEditingController latController;
+   TextEditingController latController = new TextEditingController();
 
-   TextEditingController longController;
+   TextEditingController longController = new TextEditingController();
 
    Widget editContactWidget = new Container();
 
-  String  contactImage = null;
+  String?  contactImage = null;
   int validCount = 0;
 
   EditContactPageState(this.contact);
@@ -71,9 +71,9 @@ class EditContactPageState extends State<EditContactPage> {
   void initState() {
     contactImage = contact.contactImage;
   //  nameController = new TextEditingController(text: contact.name + "");
-    phoneController = new TextEditingController(text: contact.phone + "");
-    emailController = new TextEditingController(text: contact.email + "");
-    addressController = new TextEditingController(text: contact.address + "");
+  //  phoneController = new TextEditingController(text: contact.phone + "");
+  //  emailController = new TextEditingController(text: contact.email + "");
+ //   addressController = new TextEditingController(text: contact.address + "");
     
     super.initState();
   }
@@ -190,7 +190,7 @@ class EditContactPageState extends State<EditContactPage> {
     return new Flexible(
       child: _imageFile == null
           ? (contactImage != null
-              ? new Image.memory(base64Decode(contactImage))
+              ? new Image.memory(base64Decode(contactImage!))
               : new Text(
                   Texts.YOU_HAVE_NOT_YET_PICKED_AN_IMAGE,
                   style: new TextStyle(
@@ -200,7 +200,7 @@ class EditContactPageState extends State<EditContactPage> {
                   textAlign: TextAlign.center,
                 ))
           : new Image.file(
-              File(_imageFile.path),
+              File(_imageFile!.path),
               fit: BoxFit.cover,
             ),
       fit: FlexFit.tight,
@@ -371,12 +371,11 @@ class EditContactPageState extends State<EditContactPage> {
     contactToBeEdited.phone = phoneController.text;
     contactToBeEdited.email = emailController.text;
     contactToBeEdited.address = addressController.text;
-    contactToBeEdited.latitude = latController.text;
-    contactToBeEdited.longitude = longController.text;
+    
     if (validCount == 0) {
       contactToBeEdited.contactImage = contactImage;
     } else {
-      List<int> contactImageBytes = File(_imageFile.path).readAsBytesSync();
+      List<int> contactImageBytes = File(_imageFile!.path).readAsBytesSync();
       contactToBeEdited.contactImage = base64Encode(contactImageBytes);
     }
     progressDialog.show();
@@ -385,7 +384,7 @@ class EditContactPageState extends State<EditContactPage> {
 
   void editContact(Contact contactToBeEdited) async {
  //   EventObject contactObject = await updateContact(contactToBeEdited);
-    EventObject contactObject;
+    EventObject contactObject = new EventObject();
     if (this.mounted) {
       setState(() {
         progressDialog.hide();

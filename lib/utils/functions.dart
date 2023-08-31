@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import 'package:Contacts/models/log.dart';
+
 import 'package:Contacts/utils/constants.dart';
 import 'package:intl/intl.dart';
 
@@ -60,11 +60,4 @@ String formatTimeStamp(DateTime timeStamp, String dateFormat) {
   return new DateFormat(dateFormat).format(timeStamp);
 }
 
-Log getLog(String transaction) {
-  Log log = new Log();
-  DateTime dateTime = DateTime.now();
-  log.column_timestamp = dateTime.millisecondsSinceEpoch.toString();
-  log.column_date = formatTimeStamp(dateTime, LogTableTransactions.DATE_FORMAT);
-  log.column_transaction = transaction;
-  return log;
-}
+

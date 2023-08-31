@@ -24,14 +24,14 @@ class ProgressDialog extends StatefulWidget {
   double borderRadius;
   String text;
   bool opacity;
-  ProgressDialogState progressDialogState;
+  ProgressDialogState? progressDialogState;
 
   ProgressDialog(
       {this.backgroundColor = Colors.black54,
       this.color = Colors.white,
       this.containerColor = Colors.transparent,
       this.borderRadius = 10.0,
-      this.text,
+      this.text = "",
       this.opacity = false});
 
   @override
@@ -44,15 +44,15 @@ class ProgressDialog extends StatefulWidget {
       opacity: this.opacity);
 
   void hide() {
-    progressDialogState.hide();
+    progressDialogState!.hide();
   }
 
   void show() {
-    progressDialogState.show();
+    progressDialogState!.show();
   }
 
   void showProgressWithText(String title) {
-    progressDialogState.showProgressWithText(title);
+    progressDialogState!.showProgressWithText(title);
   }
 
   static Widget getProgressDialog(String title, bool opacity) {
@@ -71,7 +71,7 @@ class ProgressDialogState extends State<ProgressDialog> {
   Color color;
   Color containerColor;
   double borderRadius;
-  String text;
+  String text ;
   bool opacity = true;
 
   ProgressDialogState(
@@ -79,7 +79,7 @@ class ProgressDialogState extends State<ProgressDialog> {
       this.color = Colors.white,
       this.containerColor = Colors.transparent,
       this.borderRadius = 10.0,
-      this.text,
+      this.text = "",
       this.opacity = false});
 
   @override
@@ -110,7 +110,7 @@ class ProgressDialogState extends State<ProgressDialog> {
   }
 
   Widget _getCenterContent() {
-    if (text == null || text.isEmpty) {
+    if (text == null || text!.isEmpty) {
       return _getCircularProgress();
     }
 

@@ -19,18 +19,17 @@ import 'dart:async';
 import 'package:Contacts/utils/constants.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'contact.g.dart';
+//part 'contact.g.dart';
 
 @JsonSerializable()
-class Contact extends Object with _$ContactSerializerMixin {
-  String id;
-  String name;
-  String phone;
-  String email;
-  String address;
-  String latitude;
-  String longitude;
-  String contactImage;
+class Contact  {
+  int? id;
+  String? name;
+  String? phone;
+  String? email;
+  String? address;
+  
+  String? contactImage;
 
   Contact(
       {this.id,
@@ -38,8 +37,7 @@ class Contact extends Object with _$ContactSerializerMixin {
       this.phone,
       this.email,
       this.address,
-      this.latitude,
-      this.longitude,
+      
       this.contactImage});
 
   static Future<List<Contact>> fromContactJson(List<dynamic> json) async {
@@ -48,7 +46,7 @@ class Contact extends Object with _$ContactSerializerMixin {
 
     for (var contact in json) {
       contactList.add(new Contact(
-        id: contact['_id'],
+        id: contact['personId'],
         name: contact['name'] ?? '',
         phone: contact['phone1'] ?? '',
         email: contact['emailAddress'] ?? '',
@@ -60,8 +58,7 @@ class Contact extends Object with _$ContactSerializerMixin {
     return contactList;
   }
 
-  factory Contact.fromJson(Map<String, dynamic> json) =>
-      _$ContactFromJson(json);
+  
 
   Map toMap() {
     Map<String, dynamic> contactMap = <String, dynamic>{
@@ -69,24 +66,11 @@ class Contact extends Object with _$ContactSerializerMixin {
       ContactTable.PHONE: phone,
       ContactTable.EMAIL: email,
       ContactTable.ADDRESS: address,
-      ContactTable.LATITUDE: latitude,
-      ContactTable.LONGITUDE: longitude,
       ContactTable.CONTACT_IMAGE: contactImage,
     };
 
     return contactMap;
   }
 
-  static Contact fromMap(Map map) {
-    return new Contact(
-      id: map[ContactTable.ID].toString(),
-      name: map[ContactTable.NAME],
-      phone: map[ContactTable.PHONE],
-      email: map[ContactTable.EMAIL],
-      address: map[ContactTable.ADDRESS],
-      latitude: map[ContactTable.LATITUDE],
-      longitude: map[ContactTable.LONGITUDE],
-      contactImage: map[ContactTable.CONTACT_IMAGE],
-    );
-  }
+  
 }

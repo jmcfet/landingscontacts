@@ -19,7 +19,6 @@ import 'dart:convert';
 
 import 'package:Contacts/models/base/event_object.dart';
 import 'package:Contacts/models/contact.dart';
-import 'package:Contacts/models/log.dart';
 import 'package:Contacts/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,9 +28,7 @@ import '../models/association.dart';
 Future<EventObject> getAssociations() async {
   try {
     
-    String scheme = 'http';
-  int port = 5121;
-  String server = 'listest20231.azurewebsites.net';
+  
     var url = new Uri(
         scheme: APIConstants.scheme,
         host: APIConstants.server,
@@ -61,9 +58,7 @@ Future<EventObject> getAssociationResidents(assoc) async {
     var queryParameters1 = {
       'cat': assoc,
     };
-    String scheme = 'http';
-  int port = 5121;
-  String server = 'localhost';
+  
     var url = new Uri(
         scheme: APIConstants.scheme,
         host: APIConstants.server,
@@ -95,9 +90,7 @@ Future<EventObject> getSearchResults(search,cat) async {
       'search': search,
       'cat':cat
     };
-    String scheme = 'http';
-  int port = 5121;
-  String server = 'localhost';
+   
     var url = new Uri(
         scheme: APIConstants.scheme,
         host: APIConstants.server,
@@ -123,25 +116,7 @@ Future<EventObject> getSearchResults(search,cat) async {
   }
 }
 
-Future<EventObject> getLogsUsingRestAPI() async {
-  try {
-    final response = await http.get(Uri.parse(APIConstants.READ_LOGS));
-    if (response != null) {
-      if (response.statusCode == APIResponseCode.SC_OK) {
-        final responseJson = json.decode(response.body);
-        List<Log> logs = await Log.fromLogsJson(responseJson);
-        return new EventObject(id: Events.READ_LOGS_SUCCESSFUL, object: logs);
-      } else {
-        return new EventObject(id: Events.NO_LOGS_FOUND);
-      }
-    } else {
-      return new EventObject();
-    }
-  } catch (e) {
-    print(e.toString());
-    return new EventObject();
-  }
-}
+
 
 
 
@@ -150,7 +125,7 @@ Future<EventObject> saveContactUsingRestAPI(Contact contact) async {
     final encoding = APIConstants.OCTET_STREAM_ENCODING;
 
     final response = await http.post(Uri.parse(APIConstants.CREATE_CONTACT),
-        body: json.encode(contact.toJson()),
+     //   body: json.encode(contact.toJson()),
         encoding: Encoding.getByName(encoding));
 
     if (response != null) {
@@ -168,42 +143,12 @@ Future<EventObject> saveContactUsingRestAPI(Contact contact) async {
   }
 }
 
-Future<EventObject> removeContactUsingRestAPI(Contact contact) async {
-  try {
-    final encoding = APIConstants.OCTET_STREAM_ENCODING;
-    final json = '{"_id":"${contact.id}"}';
-
-    final response = await http.post(Uri.parse(APIConstants.DELETE_CONTACT),
-        body: json /*json.encode(contact.toJson())*/,
-        encoding: Encoding.getByName(encoding));
-
-    if (response != null) {
-      if (response.statusCode == APIResponseCode.SC_OK) {
-        return new EventObject(id: Events.CONTACT_WAS_DELETED_SUCCESSFULLY);
-      } else if (response.statusCode == APIResponseCode.SC_BAD_REQUEST) {
-        return new EventObject(
-            id: Events.PLEASE_PROVIDE_THE_ID_OF_THE_CONTACT_TO_BE_DELETED);
-      } else if (response.statusCode ==
-          APIResponseCode.SC_INTERNAL_SERVER_ERROR) {
-        return new EventObject(
-            id: Events.NO_CONTACT_WITH_PROVIDED_ID_EXIST_IN_DATABASE);
-      } else {
-        return new EventObject(id: Events.UNABLE_TO_DELETE_CONTACT);
-      }
-    } else {
-      return new EventObject();
-    }
-  } catch (e) {
-    print(e.toString());
-    return new EventObject();
-  }
-}
 
 Future<EventObject> updateContactUsingRestAPI(Contact contact) async {
   try {
     final encoding = APIConstants.OCTET_STREAM_ENCODING;
     final response = await http.post(Uri.parse(APIConstants.UPDATE_CONTACT),
-        body: json.encode(contact.toJson()),
+   //     body: json.encode(contact.toJson()),
         encoding: Encoding.getByName(encoding));
 
     if (response != null) {

@@ -1,18 +1,4 @@
-/*
- * Copyright 2018 Harsh Sharma
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
 import 'dart:convert';
 import 'dart:io';
@@ -38,9 +24,9 @@ class CreateContactPageState extends State<CreateContactPage> {
   final ImagePicker _picker = ImagePicker();
 
   ProgressDialog progressDialog = ProgressDialog.getProgressDialog(
-      ProgressDialogTitles.CREATING_CONTACT, false);
+      ProgressDialogTitles.CREATING_CONTACT, false) as ProgressDialog;
 
-  XFile _imageFile;
+  XFile? _imageFile;
 
   TextEditingController nameController = new TextEditingController(text: "");
 
@@ -177,7 +163,7 @@ class CreateContactPageState extends State<CreateContactPage> {
               textAlign: TextAlign.center,
             )
           : new Image.file(
-              File(_imageFile.path),
+              File(_imageFile!.path),
               fit: BoxFit.cover,
             ),
       fit: FlexFit.tight,
@@ -343,14 +329,13 @@ class CreateContactPageState extends State<CreateContactPage> {
     }
     FocusScope.of(context).requestFocus(new FocusNode());
     Contact contactToBeCreated = new Contact();
-    contactToBeCreated.id = "";
+    contactToBeCreated.id = 0;
     contactToBeCreated.name = nameController.text;
     contactToBeCreated.phone = phoneController.text;
     contactToBeCreated.email = emailController.text;
     contactToBeCreated.address = addressController.text;
-    contactToBeCreated.latitude = latController.text;
-    contactToBeCreated.longitude = longController.text;
-    List<int> contactImageBytes = File(_imageFile.path).readAsBytesSync();
+    
+    List<int> contactImageBytes = File(_imageFile!.path).readAsBytesSync();
     contactToBeCreated.contactImage = base64Encode(contactImageBytes);
     progressDialog.show();
     createContact(contactToBeCreated);
@@ -385,7 +370,7 @@ class CreateContactPageState extends State<CreateContactPage> {
 
   
   Future<EventObject> saveContact(Contact contact) async {
-  EventObject eventObject;
+  EventObject eventObject = new EventObject();
   
   return eventObject;
 }

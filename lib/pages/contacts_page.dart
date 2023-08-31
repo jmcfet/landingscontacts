@@ -30,7 +30,7 @@ import '../models/association.dart';
 
 class ContactsPage extends StatefulWidget {
   
-  ContactPageState _contactPageState;
+  ContactPageState? _contactPageState;
 
   ContactsPage();
 
@@ -44,7 +44,7 @@ class ContactsPage extends StatefulWidget {
 class ContactPageState extends State<ContactsPage> {
   static final globalKey = new GlobalKey<ScaffoldState>();
 
-  ProgressDialog progressDialog = ProgressDialog.getProgressDialog(
+  Widget progressDialog = ProgressDialog.getProgressDialog(
       ProgressDialogTitles.LOADING_CONTACTS, false);
 
   RectTween _createRectTween(Rect begin, Rect end) {
@@ -54,12 +54,12 @@ class ContactPageState extends State<ContactsPage> {
   static const opacityCurve =
       const Interval(0.0, 0.75, curve: Curves.fastOutSlowIn);
 
-  List<Contact> contactList;
-  List<Dismissible> dismissible;
+  List<Contact> contactList = [];
+  List<Dismissible> dismissible = [];
 
-  ContactPageState({this.contactList});
+  ContactPageState();
 
-  Widget contactListWidget;
+  Widget? contactListWidget;
   List<Association> associations = [];
   String selectedassoc = 'Carriagehouse I';
   String assnCode = 'ALL';
@@ -75,7 +75,7 @@ class ContactPageState extends State<ContactsPage> {
     EventObject eventObject = await getAssociations();
     setState(() {
       selectedassoc = 'ALL';
-      associations = eventObject.object;
+      associations = eventObject.object as List<Association>;
       associations.insert(0, Association(AssnCode:'ALL',AssnShortName: 'ALL'));
     });
     
@@ -95,7 +95,7 @@ class ContactPageState extends State<ContactsPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
               border: Border.all(
-                color: Colors.red[500],
+                color: Colors.red[500]!,
               ),
               borderRadius: BorderRadius.all(Radius.circular(20))
               ),
@@ -107,15 +107,15 @@ class ContactPageState extends State<ContactsPage> {
               
               onChanged: (newValue) {
                 setState(() {
-                  selectedassoc = newValue;
-                  assnCode = associations.where((element) => element.AssnShortName == newValue).first.AssnCode;
+                  selectedassoc = newValue!;
+                  assnCode = associations.where((element) => element.AssnShortName == newValue).first.AssnCode!;
                   getPeopleAssociations( assnCode);
                 });
               },
               items: associations.map((assoc) {
                 return DropdownMenuItem<String>(
                   value: assoc.AssnShortName,
-                  child: Text(assoc.AssnShortName),
+                  child: Text(assoc.AssnShortName!),
                 );
               }).toList(),
             ),
@@ -152,7 +152,7 @@ class ContactPageState extends State<ContactsPage> {
           NoContentFound(Texts.STARTINFO, Icons.account_circle);
     }
     return new Stack(
-      children: <Widget>[contactListWidget, progressDialog],
+      children: <Widget>[contactListWidget!, progressDialog],
     );
   }
 
@@ -168,7 +168,7 @@ class ContactPageState extends State<ContactsPage> {
 
   Widget _buildContactRow(Contact contact) {
     return new Dismissible(
-      key: Key(contact.id),
+      key: Key(contact.id.toString()),
       child: new GestureDetector(
         onTap: () {
           _heroAnimation(contact);
@@ -199,8 +199,8 @@ class ContactPageState extends State<ContactsPage> {
       onDismissed: (direction) {
         setState(() {
           if (direction == DismissDirection.endToStart) {
-            progressDialog
-                .showProgressWithText(ProgressDialogTitles.DELETING_CONTACT);
+   //         progressDialog
+ //               .showProgressWithText(ProgressDialogTitles.DELETING_CONTACT);
  //           deleteContact(contact);
             contactList.remove(contact);
           } else {
@@ -288,11 +288,11 @@ class ContactPageState extends State<ContactsPage> {
 
   Widget contactAvatar(Contact contact) {
     return new Hero(
-      tag: contact.id,
+      tag: contact.id ?? 'default',
       child: new Avatar(
         contactImage: contact.contactImage,
       ),
-      createRectTween: _createRectTween,
+   //   createRectTween: _createRectTween,
     );
   }
 
@@ -303,9 +303,9 @@ class ContactPageState extends State<ContactsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          textContainer(contact.name, Colors.amberAccent),
-          textContainer(contact.phone, Colors.amberAccent),
-          textContainer(contact.email, Colors.amberAccent),
+          textContainer(contact.name ?? '', Colors.amberAccent),
+          textContainer(contact.phone ?? '', Colors.amberAccent),
+          textContainer(contact.email ?? '', Colors.amberAccent),
         ],
       ),
       margin: EdgeInsets.only(left: 20.0),
@@ -333,8 +333,8 @@ class ContactPageState extends State<ContactsPage> {
             Animation<double> secondaryAnimation) {
           return new AnimatedBuilder(
               animation: animation,
-              builder: (BuildContext context, Widget child) {
-                return new Opacity(
+              builder: (BuildContext context, Widget? child) {
+                return  Opacity(
                   opacity: opacityCurve.transform(animation.value),
                   child: ContactDetails(contact),
                 );
@@ -348,8 +348,8 @@ class ContactPageState extends State<ContactsPage> {
 
   void getSearchContacts(searchtoken, categogy) {
     setState(() {
-      progressDialog
-          .showProgressWithText(ProgressDialogTitles.LOADING_CONTACTS);
+ //     progressDialog
+  //        .showProgressWithText(ProgressDialogTitles.LOADING_CONTACTS);
       loadContacts2(searchtoken, categogy);
     });
   }
@@ -357,22 +357,22 @@ class ContactPageState extends State<ContactsPage> {
   void getPeopleAssociations(name) async {
     EventObject eventObject = await getAssociationResidents(name);
     setState(() {
-      progressDialog
-          .showProgressWithText(ProgressDialogTitles.LOADING_CONTACTS);
+ //     progressDialog
+  //        .showProgressWithText(ProgressDialogTitles.LOADING_CONTACTS);
 
-      progressDialog.hide();
-      contactList = eventObject.object;
+  //    progressDialog.hide();
+      contactList = eventObject.object as List<Contact>;
     });
   }
 
   void getListofAssociations(name) async {
     EventObject eventObject = await getAssociations();
     setState(() {
-      progressDialog
-          .showProgressWithText(ProgressDialogTitles.LOADING_CONTACTS);
+  //    progressDialog
+  //        .showProgressWithText(ProgressDialogTitles.LOADING_CONTACTS);
 
-      progressDialog.hide();
-      contactList = eventObject.object;
+ //     progressDialog.hide();
+      contactList = eventObject.object as List<Contact>;
     });
   }
 
@@ -380,15 +380,15 @@ class ContactPageState extends State<ContactsPage> {
     EventObject eventObject = await getSearchResults(search, cat);
     if (this.mounted) {
       setState(() {
-        progressDialog.hide();
+ //       progressDialog.hide();
         switch (eventObject.id) {
           case Events.READ_CONTACTS_SUCCESSFUL:
-            contactList = eventObject.object;
+            contactList = eventObject.object as List<Contact>;
             showSnackBar(SnackBarText.CONTACTS_LOADED_SUCCESSFULLY);
             break;
 
           case Events.NO_CONTACTS_FOUND:
-            contactList = eventObject.object;
+            contactList = eventObject.object as List<Contact>;
             showSnackBar(SnackBarText.NO_CONTACTS_FOUND);
             break;
 
