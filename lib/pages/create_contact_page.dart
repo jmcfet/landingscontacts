@@ -331,7 +331,7 @@ class CreateContactPageState extends State<CreateContactPage> {
     Contact contactToBeCreated = new Contact();
     contactToBeCreated.id = 0;
     contactToBeCreated.name = nameController.text;
-    contactToBeCreated.phone = phoneController.text;
+    contactToBeCreated.Phone1 = phoneController.text;
     contactToBeCreated.email = emailController.text;
     contactToBeCreated.address = addressController.text;
     

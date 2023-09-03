@@ -16,7 +16,7 @@
 
 import 'dart:async';
 
-import 'package:Contacts/utils/constants.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 //part 'contact.g.dart';
@@ -25,19 +25,30 @@ import 'package:json_annotation/json_annotation.dart';
 class Contact  {
   int? id;
   String? name;
-  String? phone;
+
   String? email;
   String? address;
-  
+  bool? IncludeEmail;
+  bool? IncludePhone;
+  String? Phone1;
+  String? Phone1Type;
+  String? Phone2;
+  String? Phone2Type;
+//  bool? lrcMember;
   String? contactImage;
 
   Contact(
       {this.id,
       this.name,
-      this.phone,
       this.email,
       this.address,
-      
+      this.IncludeEmail,
+      this.IncludePhone,
+      this. Phone1,
+      this.Phone1Type,
+      this. Phone2,
+      this. Phone2Type,
+   //   this.lrcMember,
       this.contactImage});
 
   static Future<List<Contact>> fromContactJson(List<dynamic> json) async {
@@ -48,11 +59,15 @@ class Contact  {
       contactList.add(new Contact(
         id: contact['personId'],
         name: contact['name'] ?? '',
-        phone: contact['phone1'] ?? '',
+        Phone1: contact['phone1'] ?? '',
         email: contact['emailAddress'] ?? '',
         address: contact['address'] ?? '',
-        
-        
+        Phone2: contact['phone2'] ?? '',
+        Phone1Type: contact['phone1Type'] ?? '',
+        Phone2Type: contact['phone2Type'] ?? '',
+        IncludeEmail: contact['includeEmail'] ?? '',
+        IncludePhone: contact['includePhone'] ?? '',
+     //   lrcMember: contact['lrcMember'] ?? '',
       ));
     }
     return contactList;
@@ -60,17 +75,7 @@ class Contact  {
 
   
 
-  Map toMap() {
-    Map<String, dynamic> contactMap = <String, dynamic>{
-      ContactTable.NAME: name,
-      ContactTable.PHONE: phone,
-      ContactTable.EMAIL: email,
-      ContactTable.ADDRESS: address,
-      ContactTable.CONTACT_IMAGE: contactImage,
-    };
-
-    return contactMap;
-  }
+  
 
   
 }

@@ -368,7 +368,7 @@ class EditContactPageState extends State<EditContactPage> {
     Contact contactToBeEdited = new Contact();
     contactToBeEdited.id = contact.id;
    // contactToBeEdited.name = nameController.text;
-    contactToBeEdited.phone = phoneController.text;
+    contactToBeEdited.Phone1 = phoneController.text;
     contactToBeEdited.email = emailController.text;
     contactToBeEdited.address = addressController.text;
     

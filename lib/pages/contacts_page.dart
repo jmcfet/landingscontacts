@@ -132,7 +132,8 @@ class ContactPageState extends State<ContactsPage> {
                 decoration: InputDecoration(
                     hintText: 'Search by last name',
                     prefixIcon: Icon(Icons.search),
-                    suffixIcon: Icon(Icons.camera_alt)),
+                   
+                  ),
               ),
               ),
             ),
@@ -304,7 +305,7 @@ class ContactPageState extends State<ContactsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           textContainer(contact.name ?? '', Colors.amberAccent),
-          textContainer(contact.phone ?? '', Colors.amberAccent),
+          textContainer(contact.Phone1 ?? '', Colors.amberAccent),
           textContainer(contact.email ?? '', Colors.amberAccent),
         ],
       ),

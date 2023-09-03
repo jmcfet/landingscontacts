@@ -69,7 +69,7 @@ class ContactDetailsPageState extends State<ContactDetails> {
           height: 20.0,
         ),
         listTile(contact.name!, Icons.account_circle, Texts.NAME),
-        listTile(contact.phone!, Icons.phone, Texts.PHONE),
+        listTile(contact.Phone1!, Icons.phone, Texts.PHONE),
         listTile(contact.email!, Icons.email, Texts.EMAIL),
         listTile(contact.address!, Icons.location_on, Texts.ADDRESS),
         
@@ -84,7 +84,7 @@ class ContactDetailsPageState extends State<ContactDetails> {
           case Texts.NAME:
             break;
           case Texts.PHONE:
-            _launch("tel:" + contact.phone!);
+            _launch("tel:" + contact.Phone1!);
             break;
           case Texts.EMAIL:
             _launch("mailto:${contact.email}?");

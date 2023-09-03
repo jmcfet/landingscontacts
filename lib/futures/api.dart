@@ -29,14 +29,9 @@ Future<EventObject> getAssociations() async {
   try {
     
   
-    var url = new Uri(
-        scheme: APIConstants.scheme,
-        host: APIConstants.server,
-      //  port: port,
-        path: '/api/lis/associations',
-        );
-    final response = await http.get(url);
-    if (response != null) {
+   
+    final response = await http.get(Uri.parse(APIConstants.READ_ASSOCS));
+   
       if (response.statusCode == APIResponseCode.SC_OK) {
         final responseJson = json.decode(response.body);
         List<Association> contactList = await Association.fromContactJson(responseJson);
@@ -45,9 +40,7 @@ Future<EventObject> getAssociations() async {
       } else {
         return new EventObject(id: Events.NO_CONTACTS_FOUND);
       }
-    } else {
-      return new EventObject();
-    }
+    
   } catch (e) {
     print(e.toString());
     return new EventObject();
@@ -59,14 +52,9 @@ Future<EventObject> getAssociationResidents(assoc) async {
       'cat': assoc,
     };
   
-    var url = new Uri(
-        scheme: APIConstants.scheme,
-        host: APIConstants.server,
-       // port: port,
-        path: '/api/lis/getResidentsinAssociation',
-        queryParameters: queryParameters1);
-    final response = await http.get(url);
-    if (response != null) {
+    
+    final response = await http.get(Uri.parse(APIConstants.READ_CONTACTS + assoc));
+    
       if (response.statusCode == APIResponseCode.SC_OK) {
         final responseJson = json.decode(response.body);
         List<Contact> contactList = await Contact.fromContactJson(responseJson);
@@ -75,9 +63,7 @@ Future<EventObject> getAssociationResidents(assoc) async {
       } else {
         return new EventObject(id: Events.NO_CONTACTS_FOUND);
       }
-    } else {
-      return new EventObject();
-    }
+    
   } catch (e) {
     print(e.toString());
     return new EventObject();
