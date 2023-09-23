@@ -22,10 +22,10 @@ const String GOOGLE_PLACE_API_KEY = "REPLACE_IT_WITH_YOUR_OWN_API_KEY";
 class APIConstants {
   static const String scheme = 'https';
   //static const String server = 'listest20231.azurewebsites.net';
-  static const String server = '//localhost';
+  static const String server = '//localhost:5185';
   static const int port = 5121;
  // static const String _CONTACT_API_BASE_URL = "https://listest20231.azurewebsites.net/api/lis/";
-static const String _CONTACT_API_BASE_URL = "http://localhost:5121/api/lis/";
+static const String _CONTACT_API_BASE_URL = "http://localhost:5185/api/lis/";
   static const String READ_CONTACTS =
       _CONTACT_API_BASE_URL + "getResidentsinAssociation?cat=";
 static const String READ_ASSOCS =
@@ -34,7 +34,7 @@ static const String READ_ASSOCS =
       _CONTACT_API_BASE_URL + "ReadOneContact.php?_id=";
 
   static const String SEARCH_CONTACT =
-      _CONTACT_API_BASE_URL + "SearchContact.php?s=";
+      _CONTACT_API_BASE_URL + "searchPersons?search=";
 
   static const String CREATE_CONTACT =
       _CONTACT_API_BASE_URL + "CreateContact.php";

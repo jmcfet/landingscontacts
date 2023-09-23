@@ -34,6 +34,7 @@ class Contact  {
   String? Phone1Type;
   String? Phone2;
   String? Phone2Type;
+  String? association;
 //  bool? lrcMember;
   String? contactImage;
 
@@ -49,6 +50,7 @@ class Contact  {
       this. Phone2,
       this. Phone2Type,
    //   this.lrcMember,
+      this.association,
       this.contactImage});
 
   static Future<List<Contact>> fromContactJson(List<dynamic> json) async {
@@ -65,8 +67,9 @@ class Contact  {
         Phone2: contact['phone2'] ?? '',
         Phone1Type: contact['phone1Type'] ?? '',
         Phone2Type: contact['phone2Type'] ?? '',
-        IncludeEmail: contact['includeEmail'] ?? '',
-        IncludePhone: contact['includePhone'] ?? '',
+        IncludeEmail: contact['includeEmail'] ?? false,
+        IncludePhone: contact['includePhone'] ?? false,
+        association: contact['association'] ?? '',
      //   lrcMember: contact['lrcMember'] ?? '',
       ));
     }

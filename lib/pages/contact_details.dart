@@ -63,17 +63,8 @@ class ContactDetailsPageState extends State<ContactDetails> {
 
   Widget _contactDetails() {
     return ListView(
-      children: <Widget>[
-         SizedBox(
-
-          height: 20.0,
-        ),
-        listTile(contact.name!, Icons.account_circle, Texts.NAME),
-        listTile(contact.Phone1!, Icons.phone, Texts.PHONE),
-        listTile(contact.email!, Icons.email, Texts.EMAIL),
-        listTile(contact.address!, Icons.location_on, Texts.ADDRESS),
-        
-      ],
+      children: createPersonForm(contact)
+     ,
     );
   }
 
@@ -89,8 +80,6 @@ class ContactDetailsPageState extends State<ContactDetails> {
           case Texts.EMAIL:
             _launch("mailto:${contact.email}?");
             break;
-          
-          
         }
       },
       child: new Column(
@@ -130,4 +119,121 @@ class ContactDetailsPageState extends State<ContactDetails> {
       print(e.toString());
     }
   }
+
+  List<Widget> createPersonForm(contact) {
+    return [
+      padded(
+          child: TextFormField(
+        key: Key('personkey '),
+        //       keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(labelText: 'Last name '),
+        autocorrect: false,
+        initialValue: contact?.name,
+        onSaved: (val) => contact?.LastName = val!,
+      )),
+      
+      
+      Row(children: [
+        Expanded(
+          flex: 2,
+          child: 
+              TextFormField(
+              key: new Key('personemail'),
+              keyboardType: TextInputType.emailAddress,
+              decoration: new InputDecoration(labelText: 'eMail '),
+              autocorrect: false,
+              initialValue: contact?.email,
+              //  validator: (val) => validateUserid(val),
+              onSaved: (val) => contact?.EmailAddress = val,
+            )
+        ),
+        Expanded(
+          flex: 1,
+          child: DropdownButtonFormField(
+            items: [
+              'Yes',
+              'No',
+            ].map((phoneType) {
+              return DropdownMenuItem(
+                value: phoneType,
+                child: Text(phoneType),
+              );
+            }).toList(),
+            onChanged: (value) {},
+            decoration: InputDecoration(
+              labelText: 'Include in directory',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+      ]
+      ),
+      Row(children: [
+        Expanded(
+          flex: 2,
+          child: TextFormField(
+            decoration: InputDecoration(labelText: 'Phone'),
+             initialValue: contact?.Phone1,
+            onSaved: (val) => contact?.Phone1 = val,
+          ),
+        ),
+        SizedBox(width: 16.0),
+        Expanded(
+          flex: 1,
+          child: DropdownButtonFormField(
+            items: [
+              'Mobile',
+              'Land',
+            ].map((phoneType) {
+              return DropdownMenuItem(
+                value: phoneType,
+                child: Text(phoneType),
+              );
+            }).toList(),
+            onChanged: (value) {},
+            decoration: InputDecoration(
+              labelText: 'Phone Type',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+      ]),
+      Row(children: [
+        Expanded(
+          flex: 2,
+          child: TextFormField(
+            decoration: InputDecoration(labelText: 'second Phone'),
+            onSaved: (val) => contact?.Phone2 = val,
+          ),
+        ),
+        SizedBox(width: 16.0),
+        Expanded(
+          flex: 1,
+          child: DropdownButtonFormField(
+            items: [
+              'Mobile',
+              'Land',
+            ].map((phoneType) {
+              return DropdownMenuItem(
+                value: phoneType,
+                child: Text(phoneType),
+              );
+            }).toList(),
+            onChanged: (value) {},
+            decoration: InputDecoration(
+              labelText: 'Phone Type',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+      ]),
+    ];
+  }
+
+  Widget padded({required Widget child}) {
+  return Padding(
+    padding: EdgeInsets.symmetric(vertical: 8.0),
+    child: child,
+  );
+}
 }

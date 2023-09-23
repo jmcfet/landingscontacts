@@ -32,8 +32,8 @@ class ContactsPage extends StatefulWidget {
   
   ContactPageState? _contactPageState;
 
-  ContactsPage();
-
+  ContactsPage({required this.userid});
+  final String  userid;
   @override
   createState() =>
       _contactPageState = new ContactPageState();
@@ -64,6 +64,7 @@ class ContactPageState extends State<ContactsPage> {
   String selectedassoc = 'Carriagehouse I';
   String assnCode = 'ALL';
   void initState() {
+   
     super.initState();
     
      getAssoc();
@@ -88,6 +89,7 @@ class ContactPageState extends State<ContactsPage> {
     return new Scaffold(
       key: globalKey,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Row(
           children: [
             Container(
@@ -95,7 +97,7 @@ class ContactPageState extends State<ContactsPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
               border: Border.all(
-                color: Colors.red[500]!,
+                color: Colors.white!,
               ),
               borderRadius: BorderRadius.all(Radius.circular(20))
               ),
@@ -130,7 +132,7 @@ class ContactPageState extends State<ContactsPage> {
                 //  controller : textController,
                 onSubmitted: (value) => {getSearchContacts(value, assnCode)},
                 decoration: InputDecoration(
-                    hintText: 'Search by last name',
+                    hintText: 'by lastname ',
                     prefixIcon: Icon(Icons.search),
                    
                   ),
@@ -181,7 +183,7 @@ class ContactPageState extends State<ContactsPage> {
             borderRadius: BorderRadius.circular(10),
             // You can also set borders here
           ),
-          color: Colors.black,
+          color: Colors.white,
           child: new Container(
             child: new Column(
               children: <Widget>[
@@ -252,7 +254,7 @@ class ContactPageState extends State<ContactsPage> {
       margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
       child: new Container(
         alignment: Alignment.centerLeft,
-        color: Colors.green[400],
+        color: Colors.black,
         child: new Container(
           padding: EdgeInsets.only(left: 20.0),
           child: new Icon(
@@ -304,9 +306,33 @@ class ContactPageState extends State<ContactsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          textContainer(contact.name ?? '', Colors.amberAccent),
-          textContainer(contact.Phone1 ?? '', Colors.amberAccent),
-          textContainer(contact.email ?? '', Colors.amberAccent),
+          Row(children: [
+        Expanded(
+          flex: 2,
+          child: 
+              textContainer(contact.name ?? '', Colors.black)
+                     
+        ),
+        Expanded(
+          flex: 1,
+          child: textContainer(contact.association ?? '', Colors.black)
+        ),
+      ]
+      ),
+      Row(children: [
+        Expanded(
+          flex: 2,
+          child: 
+              textContainer(contact.Phone1 ?? '', Colors.black)
+                     
+        ),
+        Expanded(
+          flex: 1,
+          child: textContainer(contact.address ?? '', Colors.black)
+        ),
+      ]),
+         
+          textContainer(contact.email ?? '', Colors.black),
         ],
       ),
       margin: EdgeInsets.only(left: 20.0),

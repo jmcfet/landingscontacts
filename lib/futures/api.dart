@@ -48,10 +48,7 @@ Future<EventObject> getAssociations() async {
 }
 Future<EventObject> getAssociationResidents(assoc) async {
   try {
-    var queryParameters1 = {
-      'cat': assoc,
-    };
-  
+      
     
     final response = await http.get(Uri.parse(APIConstants.READ_CONTACTS + assoc));
     
@@ -72,18 +69,10 @@ Future<EventObject> getAssociationResidents(assoc) async {
 
 Future<EventObject> getSearchResults(search,cat) async {
   try {
-    var queryParameters1 = {
-      'search': search,
-      'cat':cat
-    };
+    
+       
+    final response = await http.get( Uri.parse(APIConstants.SEARCH_CONTACT + search + "&cat=" + cat));
    
-    var url = new Uri(
-        scheme: APIConstants.scheme,
-        host: APIConstants.server,
-   //     port: port,
-        path: '/api/lis/searchPersons',
-        queryParameters: queryParameters1);
-    final response = await http.get(url);
     if (response != null) {
       if (response.statusCode == APIResponseCode.SC_OK) {
         final responseJson = json.decode(response.body);

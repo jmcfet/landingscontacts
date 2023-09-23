@@ -278,11 +278,11 @@ class DashBoardPageState extends State<DashBoardPage> {
         progressDialog.hide();
         switch (eventObject.id) {
           case Events.READ_CONTACTS_SUCCESSFUL:
-            dashBoardWidget = new ContactsPage();
+        //    dashBoardWidget = new ContactsPage();
             showSnackBar(SnackBarText.CONTACTS_LOADED_SUCCESSFULLY);
             break;
           case Events.NO_CONTACTS_FOUND:
-            dashBoardWidget = new ContactsPage();
+        //    dashBoardWidget = new ContactsPage();
             showSnackBar(SnackBarText.NO_CONTACTS_FOUND);
             break;
 
