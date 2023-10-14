@@ -13,13 +13,13 @@ String getParams() {
   var uri = Uri.dataFromString(window.location.href);
   Map<String, String> params = uri.queryParameters;
   String? userid = params['userid'];
-  userid ??= 'test';
+  userid ??= 'jmcfet@icloud.com';
  // String userid = params['origin'] as String ?? 'test';
   print(userid);
   return userid;
 }
 
-String userid = 'test';
+String userid = 'jmcfet@icloud.com';
 
 void main() {
    userid = getParams(); 

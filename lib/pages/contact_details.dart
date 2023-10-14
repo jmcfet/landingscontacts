@@ -24,8 +24,8 @@ import 'package:url_launcher/url_launcher.dart';
 class ContactDetails extends StatefulWidget {
   final Contact contact;
 
-  ContactDetails(this.contact);
-
+  ContactDetails(this.contact, this.userid);
+  String userid;
   @override
   createState() => new ContactDetailsPageState(contact);
 }
@@ -227,6 +227,13 @@ class ContactDetailsPageState extends State<ContactDetails> {
           ),
         ),
       ]),
+      if (contact?.email == widget.userid)
+            ElevatedButton(
+              child: Text('Save Changes'),
+              onPressed: () {
+              Navigator.pop(context, Events.CONTACT_WAS_UPDATED_SUCCESSFULLY);
+              },
+              ),
     ];
   }
 

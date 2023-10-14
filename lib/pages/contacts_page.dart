@@ -17,10 +17,10 @@
 import 'package:Contacts/common_widgets/avatar.dart';
 import 'package:Contacts/common_widgets/no_content_found.dart';
 import 'package:Contacts/common_widgets/progress_dialog.dart';
+import 'package:Contacts/main.dart';
 import 'package:Contacts/models/base/event_object.dart';
 import 'package:Contacts/models/contact.dart';
 import 'package:Contacts/pages/contact_details.dart';
-import 'package:Contacts/pages/edit_contact_page.dart';
 import 'package:Contacts/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
@@ -174,7 +174,8 @@ class ContactPageState extends State<ContactsPage> {
       key: Key(contact.id.toString()),
       child: new GestureDetector(
         onTap: () {
-          _heroAnimation(contact);
+          _navigateToEditContactPage(context, contact);
+          
         },
         child: new Card(
           elevation: 5,
@@ -189,7 +190,7 @@ class ContactPageState extends State<ContactsPage> {
               children: <Widget>[
                 new Row(
                   children: <Widget>[
-                    //          contactAvatar(contact),
+                    
                     contactDetails(contact)
                   ],
                 ),
@@ -199,29 +200,16 @@ class ContactPageState extends State<ContactsPage> {
           ),
         ),
       ),
-      onDismissed: (direction) {
-        setState(() {
-          if (direction == DismissDirection.endToStart) {
-   //         progressDialog
- //               .showProgressWithText(ProgressDialogTitles.DELETING_CONTACT);
- //           deleteContact(contact);
-            contactList.remove(contact);
-          } else {
-            _navigateToEditContactPage(context, contact);
-            contactList.remove(contact);
-          }
-        });
-      },
+     
       direction: DismissDirection.horizontal,
-      background: dismissContainerEdit(),
-      secondaryBackground: dismissContainerDelete(),
+      
     );
   }
 
   void _navigateToEditContactPage(BuildContext context, Contact contact) async {
     int contactUpdateStatus = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => new EditContactPage(contact)),
+      MaterialPageRoute(builder: (context) => new ContactDetails(contact,widget.userid)),
     );
     setState(() {
       switch (contactUpdateStatus) {
@@ -249,55 +237,13 @@ class ContactPageState extends State<ContactsPage> {
     });
   }
 
-  Widget dismissContainerEdit() {
-    return new Card(
-      margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
-      child: new Container(
-        alignment: Alignment.centerLeft,
-        color: Colors.black,
-        child: new Container(
-          padding: EdgeInsets.only(left: 20.0),
-          child: new Icon(
-            Icons.edit,
-            size: 40.0,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget dismissContainerDelete() {
-    return new Card(
-      margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
-      child: new Container(
-        alignment: Alignment.centerRight,
-        color: Colors.red[400],
-        child: new Container(
-          padding: EdgeInsets.only(right: 20.0),
-          child: new Icon(
-            Icons.delete,
-            size: 40.0,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
+  
 
   doSearch(value) {
     print(value);
   }
 
-  Widget contactAvatar(Contact contact) {
-    return new Hero(
-      tag: contact.id ?? 'default',
-      child: new Avatar(
-        contactImage: contact.contactImage,
-      ),
-   //   createRectTween: _createRectTween,
-    );
-  }
+  
 
   Widget contactDetails(Contact contact) {
     return new Flexible(
@@ -363,7 +309,7 @@ class ContactPageState extends State<ContactsPage> {
               builder: (BuildContext context, Widget? child) {
                 return  Opacity(
                   opacity: opacityCurve.transform(animation.value),
-                  child: ContactDetails(contact),
+                  child: ContactDetails(contact,widget.userid),
                 );
               });
         },
